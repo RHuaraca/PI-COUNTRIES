@@ -2,16 +2,12 @@ const {DataTypes} = require('sequelize')
 
 module.exports= (sequelize)=>{
     sequelize.define('activity',{
-        id:{
-            type: DataTypes.INTEGER,
-            autoincrement:true,
-            primaryKey:true
-        },
         name:{
             type: DataTypes.STRING,
             allowNull:false,
+            unique: true,
             validate:{
-                isAlpha: true,
+                is: /^[a-zA-Z]{2,46}(( ?[a-zA-Z]+)*?[a-zA-Z]{2,46})?$/
             }
         },
         difficulty:{
@@ -19,7 +15,8 @@ module.exports= (sequelize)=>{
             allowNull:false,
             validate:{
                 isNumeric:true,
-                isIn:[1,2,3,4,5]
+                max:5,
+                min:1
             }
         },
         duration:{
@@ -32,7 +29,7 @@ module.exports= (sequelize)=>{
             type:DataTypes.STRING,
             allowNull:false,
             validate:{
-                isIn:['summer', 'autumn', 'winter', 'spring']
+                isIn:[['summer', 'autumn', 'winter', 'spring']]
             }
         }
     },{timestamps:false});
