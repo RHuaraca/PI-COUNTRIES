@@ -8,10 +8,6 @@ const countries = Router();
 
 countries.get('/',getCountries );
 
-countries.get('/continents', (req, res) => {
-    res.status(200).send({ msg: `Enviar lista completa de continentes` })
-});
-
 countries.get('/:id', discardingIds, getCountryById);
 
 module.exports = countries;
