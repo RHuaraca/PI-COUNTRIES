@@ -1,3 +1,5 @@
+const { Country } = require('../db')
+
 const { getCountriesFromApi } = require('./modulesCountryControlers/getCountriesFromApi.js')
 const { getCountriesFromDb } = require('./modulesCountryControlers/getCountriesFromDb.js')
 const { getCountriesFromDbByName } =require('./modulesCountryControlers/getCountriesFromDbByName.js')
@@ -27,4 +29,14 @@ const getCountries = async (req, res) => {
     }
 }
 
-module.exports={getCountries};
+const getCountryById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await Country.findByPk(id)
+        result ? res.status(200).send(result) : res.status(400).send({ error: 'This route does not exist' })
+    } catch (error) {
+        res.status(400).send({ error: error.message })
+    }
+}
+
+module.exports={getCountries, getCountryById};
