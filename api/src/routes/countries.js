@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { Country } = require('../db.js')
-const axios = require('axios')
+const axios = require('axios');
+const { Op } = require("sequelize");
 const countries = Router();
 
 async function getCountriesFromDb(){
@@ -22,6 +23,15 @@ async function getCountriesFromApi(){
         });
     })).then(values => values);
 }
+async function getCountriesFromDbByName(name){
+    return await Country.findAll({
+        where: {
+            name: {
+                [Op.iLike]: `%${name}%`
+            }
+        }
+    });
+}
 
 countries.get('/', async(req, res) => {
     const {name} = req.query;
@@ -35,15 +45,17 @@ countries.get('/', async(req, res) => {
             }
         } else {
             if (!(await getCountriesFromDb()).length) {
-                await getCountriesFromApi()
-                console.log(await Country.findAll())//Nos quedamos aqui (debemos buscar por coincidencia de nombre)
-                res.status(200).send({ msg: `Enviar lista completa de paises por ${name}` });
-            } else {
-                res.status(200).send({ msg: `Enviar lista completa de paises por ${name}` });
+                await getCountriesFromApi();
+                const result = await getCountriesFromDbByName(name);
+                res.status(200).send(result.length?result:{message:'Not Found'});
+            } else { 
+                const result = await getCountriesFromDbByName(name);
+                res.status(200).send(result.length ? result : { message: 'Not Found' });
             }
         }
     } catch (error) {
-        res.status(400).send({error:error})
+        console.log(error)
+        res.status(400).send({error:error.message})
     }
 
 
