@@ -38,10 +38,11 @@ Activity.belongsToMany(Country,{through:ActivityInCountry});
 
 //instancias temporales
 /* const caminata = Activity.build({
-  name:'es esto muy bueno mas',
+  name:'es esto muy buqwe',
   difficulty:4,
   duration:5.2,
-  season: 'spring'
+  season: 'spring',
+  prueba: 'Saint Helena, Ascension and Tristan da Cunha'
 });
 caminata.save(); */
 

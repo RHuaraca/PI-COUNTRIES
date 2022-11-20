@@ -21,13 +21,13 @@ module.exports = (sequelize) => {
       type:DataTypes.STRING,
       allowNull:false
     },
-    capital:{
-      type:DataTypes.STRING,
-      allowNull:false
+    capital: {
+      type: DataTypes.STRING,
+      defaultValue: ""
     },
     subregion:{
       type:DataTypes.STRING,
-      allowNull:false
+      defaultValue:""
     },
     area:{
       type:DataTypes.FLOAT,

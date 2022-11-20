@@ -31,6 +31,10 @@ module.exports= (sequelize)=>{
             validate:{
                 isIn:[['summer', 'autumn', 'winter', 'spring']]
             }
+        },
+        prueba:{
+            type:DataTypes.STRING,
+            allowNull:false
         }
     },{timestamps:false});
 };
