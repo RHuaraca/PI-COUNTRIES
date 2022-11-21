@@ -7,7 +7,7 @@ module.exports= (sequelize)=>{
             allowNull:false,
             unique: true,
             validate:{
-                is: /^[a-zA-Z]{2,46}(( ?[a-zA-Z]+)*?[a-zA-Z]{2,46})?$/
+                is: /^[a-zA-Z]{1,46}(( ?[a-zA-Z]+)*?[a-zA-Z]{1,46})?$/
             }
         },
         difficulty:{

@@ -5,8 +5,8 @@ const Country = require('./Activity');
 module.exports=(sequelize)=>{
     sequelize.define('ActivityInCountry',{
         id:{
-            type:DataTypes.INTEGER,
-            autoincremente:true,
+            type:DataTypes.UUID,
+            defaultValue:DataTypes.UUIDV4,
             primaryKey:true
         },
         countryId:{
