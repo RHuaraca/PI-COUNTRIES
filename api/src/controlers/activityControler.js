@@ -59,8 +59,16 @@ const activityUpdate = async (req, res) => {
         let activityToUpdate = await Activity.findByPk(id)
         await activityToUpdate.update(valuesOfActivityToUpdate);
         await activityToUpdate.save();
-        activityToUpdate = await Activity.findByPk(id)
-        res.status(200).send({ msg: `actualizado`, payload: activityToUpdate });
+        activityToUpdate = await Activity.findByPk(id, {
+            include: {
+                model: Country,
+                attributes: ["name"],
+                through: {
+                    attributes: []
+                }
+            }
+        })
+        res.status(200).send([activityToUpdate]);
     } catch (error) {
         res.status(500).send({ error: error.message })
     }
