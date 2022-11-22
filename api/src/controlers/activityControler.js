@@ -14,7 +14,7 @@ const getAllActivities = async (req, res) => {
         })
         allActivities.length? res.status(200).send(allActivities) : res.status(400).send([{ message: 'No activities' }]);
     } catch (error) {
-        res.status(400).send({ error: error.message })
+        res.status(400).send([{ error: error.message }])
     }
 }
 
@@ -70,7 +70,8 @@ const activityUpdate = async (req, res) => {
         })
         res.status(200).send([activityToUpdate]);
     } catch (error) {
-        res.status(500).send({ error: error.message })
+        console.log(error);
+        res.status(500).send([{ error: error.message}])
     }
 }
 
@@ -79,9 +80,9 @@ const deleteActivity = async (req, res) => {
     try {
         const activityToDelete = await Activity.findByPk(id);
         await activityToDelete.destroy();
-        res.status(200).send({ message: `'${activityToDelete.name}' has been removed` })
+        res.status(200).send([{ message: `'${activityToDelete.name}' has been removed` }])
     } catch (error) {
-        res.status(500).send({ error: error.message })
+        res.status(500).send([{ error: error.message }])
     }
 }
 

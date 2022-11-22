@@ -14,7 +14,7 @@ const idValidatorToPutOrDeleteActivity = async (req, res, next) => {
         if (errors.length) return res.status(400).send(errors)
         next()
     } catch (error) {
-        res.status(500).send({ error: error.message })
+        res.status(500).send([{ error: error.message }])
     }
 }
 

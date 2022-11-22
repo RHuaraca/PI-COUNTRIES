@@ -14,9 +14,9 @@ const getCountries = async (req, res) => {
         }
         if(!name) return res.status(200).send(allCountries)
         const result = await getCountriesFromDbByName(name, orderName, orderPopulation);
-        res.status(200).send(result.length ? result : { message: 'Not Found' });
+        res.status(200).send(result.length ? result : [{ message: 'Not Found' }]);
     } catch (error) {
-        res.status(500).send({ error: error.message })
+        res.status(500).send([{ error: error.message }])
     }
 }
 
@@ -32,9 +32,9 @@ const getCountryById = async (req, res) => {
                 }
             }
         })
-        result ? res.status(200).send(result) : res.status(400).send({ error: 'This route does not exist' })
+        result ? res.status(200).send(result) : res.status(400).send([{ error: 'This route does not exist' }])
     } catch (error) {
-        res.status(400).send({ error: error.message })
+        res.status(400).send([{ error: error.message }])
     }
 } 
 
