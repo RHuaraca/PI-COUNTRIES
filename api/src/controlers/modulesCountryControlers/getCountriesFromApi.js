@@ -9,7 +9,7 @@ const getCountriesFromApi = async () => {
             name: country.name.common,
             flag: country.flags[1],
             continent: country.region,
-            capital: country.capital ? country.capital[0] : null,
+            capital: country.capital ? country.capital[0] : "",
             subregion: country.subregion,
             area: country.area,
             population: country.population

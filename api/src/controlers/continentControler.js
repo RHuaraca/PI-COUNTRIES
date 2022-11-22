@@ -2,20 +2,15 @@ const { Continent } = require('../db')
 const continentsJson = require('../jsons/continents.json')
 
 const getAllContinents = async (req, res) => {
-    const continentsOfDb = await Continent.findAll();
     try {
+        let continentsOfDb = await Continent.findAll();
         if (!continentsOfDb.length) {
-            await Promise.all(continentsJson.map(async continent => {
-                return await Continent.create({
-                    name: continent.name
-                })
-            })).then(value => value);
-            return res.status(200).send(await Continent.findAll())
-        } else {
-            return res.status(200).send(await Continent.findAll())
+            await Continent.bulkCreate(continentsJson);
+            continentsOfDb = await Continent.findAll();
         }
+        return res.status(200).send(continentsOfDb)
     } catch (error) {
-        res.status(400).send({ error: error.message })
+        res.status(500).send({ error: error.message })
     }
 }
 

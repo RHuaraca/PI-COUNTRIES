@@ -13,4 +13,8 @@ router.use('/activities', activities);
 
 router.use('/continents', continents);
 
+router.use('*',(req,res)=>{
+    res.status(400).send({error:'this endpoint does not exist'})
+})
+
 module.exports = router;
