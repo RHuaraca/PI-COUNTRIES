@@ -18,6 +18,24 @@ const getAllActivities = async (req, res) => {
     }
 }
 
+const getActivityById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const activity = await Activity.findByPk(id, {
+            include:{
+                model:Country,
+                attributes: ["name", "flag", "continent"],
+                through: {
+                    attributes: []
+                }
+            }
+        })
+        activity ? res.status(200).send([activity]) : res.status(400).send([{ error: 'This route does not exist' }])
+    } catch (error) {
+        res.status(500).send([{ error: error.message }])
+    }
+}
+
 const postActivity = async (req, res) => {
     const { name, difficulty, duration, season, countries } = req.body;
     try {
@@ -86,4 +104,4 @@ const deleteActivity = async (req, res) => {
     }
 }
 
-module.exports={getAllActivities, postActivity, activityUpdate, deleteActivity}
+module.exports = { getAllActivities, getActivityById, postActivity, activityUpdate, deleteActivity}

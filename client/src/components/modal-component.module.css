@@ -1,0 +1,6 @@
+.visible{
+    background-color: aquamarine;
+}
+.noVisible{
+    display: none;
+}

@@ -1,0 +1,17 @@
+.content{
+    display: flex;
+    align-items: center;
+    color: brown;
+    border: 1px;
+    border:solid;
+    border-radius: 10px;
+    border-color: rgb(213, 139, 139);
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: aliceblue;
+}
+.image{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}

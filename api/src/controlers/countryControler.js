@@ -32,7 +32,7 @@ const getCountryById = async (req, res) => {
                 }
             }
         })
-        result ? res.status(200).send(result) : res.status(400).send([{ error: 'This route does not exist' }])
+        result ? res.status(200).send([result]) : res.status(400).send([{ error: 'This route does not exist' }])
     } catch (error) {
         res.status(400).send([{ error: error.message }])
     }

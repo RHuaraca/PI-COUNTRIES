@@ -1,0 +1,44 @@
+.fondo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title {
+    margin-top: 1em;
+    margin-bottom: 0.5 em;
+}
+
+.imageActivity {
+    height: 9em;
+    width: 13em;
+    border-radius: 5px;
+}
+
+.images {
+    margin-top: 1.5em;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.imagesLaterals{
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.imageWolrdSphere {
+    height: 19em;
+    border-radius: 1000px;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.link {
+    all: none;
+    height: 2em;
+    font-size: 20px;
+    margin-top: 1em;
+    margin-bottom: 7.3em;
+}

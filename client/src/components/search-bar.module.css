@@ -1,0 +1,28 @@
+.content{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search{
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+        font-size: 18px;
+        width: 30%;
+        height: 35px;
+        padding-inline-start: 14px;
+        border-right: solid;
+        border-bottom: solid;
+        border-top: solid;
+}
+.image{
+    margin-left: 3px;
+    width: 37px;
+    height:37px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-left: solid;
+    border-bottom: solid;
+    border-top: solid;
+}

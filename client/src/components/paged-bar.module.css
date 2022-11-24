@@ -1,0 +1,25 @@
+.content{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.marker{
+    color: antiquewhite;
+    background-color: rgb(27, 27, 28);
+    border: none;
+    border-radius: 10px;
+    margin: 0.25rem;
+    box-shadow: 0 0 10px #000000;
+}
+.all{
+    border: none;
+    border-radius: 10px;
+    margin: 0.25rem;
+    box-shadow: 0 0 14px #000000;
+}
+.all:hover{
+    background-color: rgb(152, 152, 216);
+    cursor: pointer;
+}

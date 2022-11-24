@@ -1,3 +1,12 @@
+.App{
+  background-image: url('./assets/landingPageFondo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+/* arriba mis modificaciones */
 .App {
   text-align: center;
 }
