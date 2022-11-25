@@ -1,10 +1,11 @@
 .App{
   background-image: url('./assets/landingPageFondo.jpg');
-  background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
+  height: auto;
 }
 /* arriba mis modificaciones */
 .App {

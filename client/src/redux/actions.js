@@ -4,11 +4,14 @@ import {
     LOADER_ON_OFF,
     ERROR_HANDLER,
     ALL_PAGES,
-    ACTUAL_PAGE,
     INCREMENT_ACTUAL_PAGE,
     DECREMENT_ACTUAL_PAGE,
     SET_ACTUAL_PAGE,
-    SWITCH_MODAL_ACTIVE
+    SET_ORDER_NAME,
+    SET_ORDER_POPULATION,
+    GET_ALL_CONTINENTS,
+    GET_ALL_ACTIVITIES,
+    SET_FILTERS
 } from "./actionTypes";
 
 export function activeNavBar(boolean){
@@ -25,35 +28,74 @@ export function loaderOnOf(boolean){
     }
 }
 
-export function getAllCountries(orderName, orderPopulation, name) {
+export function getAllCountries(orderName, orderPopulation, filterByContinent='Not' ,filterByActivity='Not' ,name ) {
+    const filters = {filterByContinent,filterByActivity}
     if (name){
         return function (dispatch) {
             return fetch(`http://localhost:3001/countries?name=${name}&orderName=${orderName}&orderPopulation=${orderPopulation}`)
                 .then(res => res.json())
                 .then(res =>{
-                    let numOfPages;
-                    console.log(res.length)
-                    if (res.length % 10 === 0) {
-                        numOfPages = res.length / 10;
-                    }else{
-                        numOfPages = Math.ceil(res.length / 10);
+                    let filtered = [];
+                    if (res.length) {
+                        if (filterByContinent !== 'Not' && filterByActivity !== 'Not') {
+
+                            filtered = res.filter(country => {
+                                return country.continent === filterByContinent
+                            });
+                            filtered = filtered.filter(country => {
+                                if (country.activities) {
+                                    const activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
+                                    if (activityIncluded.length) return true
+                                    else return false
+                                }
+                                return false
+                            })
+                        }
+                        else if (filterByContinent !== 'Not' && filterByActivity === 'Not') {
+                            console.log(filterByContinent)
+                            filtered = res.filter(country => {
+                                return country.continent === filterByContinent
+                            });
+                        }
+                        else if (filterByContinent === 'Not' && filterByContinent !== 'Not') {
+                            filtered = res.filter(country => {
+                                if (country.activities) {
+                                    const activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
+                                    if (activityIncluded.length) return true
+                                    else return false
+                                }
+                                return false
+                            })
+                        }
+                        else {
+                            console.log('else', filterByContinent)
+                            filtered = res
+                        }
                     }
-                    console.log(numOfPages);
+                    let numOfPages;
+                    if (filtered.length % 10 === 0) {
+                        numOfPages = filtered.length / 10;
+                    } else {
+                        numOfPages = Math.ceil(filtered.length / 10);
+                    }
+
+
+
                     dispatch({
                         type: GET_ALL_COUNTRIES,
-                        payload: res
+                        payload: filtered
                     });
                     dispatch({
                         type: LOADER_ON_OFF,
                         payload: false
                     });
                     dispatch({
-                        type: ALL_PAGES,
+                        type:ALL_PAGES,
                         payload:numOfPages
                     });
                     dispatch({
-                        type: ACTUAL_PAGE,
-                        payload:1
+                        type: SET_FILTERS,
+                        payload: filters
                     });
                     return null;
                 })
@@ -75,15 +117,51 @@ export function getAllCountries(orderName, orderPopulation, name) {
             return fetch(`http://localhost:3001/countries?orderName=${orderName}&orderPopulation=${orderPopulation}`)
                 .then(res => res.json())
                 .then(res => {
+
+                    let filtered = [];
+                    if (res.length) {
+                        if (filterByContinent !== 'Not' && filterByActivity !== 'Not') {
+
+                            filtered = res.filter(country => {
+                                return country.continent === filterByContinent
+                            });
+                            filtered = filtered.filter(country => {
+                                if (country.activities) {
+                                    const activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
+                                    if (activityIncluded.length) return true
+                                    else return false
+                                }
+                                return false
+                            })
+                        }
+                        else if (filterByContinent !== 'Not' && filterByActivity === 'Not'){
+                            filtered = res.filter(country => {
+                                return country.continent === filterByContinent
+                            });
+                        }
+                        else if (filterByContinent === 'Not' && filterByActivity !== 'Not') {
+                            filtered = res.filter(country => {
+                                if (country.activities) {
+                                    const activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
+                                    if (activityIncluded.length) return true
+                                    else return false
+                                }
+                                return false
+                            })
+                        }
+                        else {
+                            filtered = res
+                        }
+                    }
                     let numOfPages;
-                    if (res.length % 10 === 0) {
-                        numOfPages = res.length / 10;
+                    if (filtered.length % 10 === 0) {
+                        numOfPages = filtered.length / 10;
                     } else {
-                        numOfPages = Math.ceil(res.length / 10);
+                        numOfPages = Math.ceil(filtered.length / 10);
                     }
                     dispatch ({
                         type: GET_ALL_COUNTRIES,
-                        payload: res
+                        payload: filtered
                     });
                     dispatch({
                         type: LOADER_ON_OFF,
@@ -94,8 +172,8 @@ export function getAllCountries(orderName, orderPopulation, name) {
                         payload: numOfPages
                     });
                     dispatch({
-                        type: ACTUAL_PAGE,
-                        payload: 1
+                        type: SET_FILTERS,
+                        payload:filters
                     });
                     return null;
                 })
@@ -133,9 +211,68 @@ export function setActualPage(setPage){
     }
 }
 
-export function switchModalActive(boolean){
+export function setOrderName(setOrderName){
     return{
-        type:SWITCH_MODAL_ACTIVE,
-        payload:boolean
+        type:SET_ORDER_NAME,
+        payload:setOrderName
+    }
+}
+
+export function setOrderPopulation(setOrderPopulation){
+    return{
+        type:SET_ORDER_POPULATION,
+        payload:setOrderPopulation
+    }
+}
+
+export function getAllContinents(){
+    return function(dispatch){
+        fetch('http://localhost:3001/continents')
+            .then(res=>res.json())
+            .then(res=>{
+                dispatch({
+                    type:GET_ALL_CONTINENTS,
+                    payload:res
+                })
+            })
+            .catch(error=>{
+                dispatch({
+                type: ERROR_HANDLER,
+                payload: error.message
+            })
+            })
+    }
+}
+
+export function getAllActivities(){
+    return function (dispatch){
+        fetch('http://localhost:3001/activities')
+            .then(res=>res.json())
+            .then(res=>dispatch({
+                type:GET_ALL_ACTIVITIES,
+                payload:res
+            }))
+            .catch(error=>{
+                dispatch({
+                    type: ERROR_HANDLER,
+                    payload: error.message
+                })
+            })
+
+    }
+}
+
+export function setFilters(continent,activity){
+    const filters = {continent, activity}
+    return{
+        type:SET_FILTERS,
+        payload:filters
+    }
+}
+
+export function setAllPages(pages){
+    return{
+        type:ALL_PAGES,
+        payload:pages
     }
 }

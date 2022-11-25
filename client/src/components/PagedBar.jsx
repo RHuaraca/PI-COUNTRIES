@@ -8,6 +8,7 @@ import {
 import {Link} from 'react-router-dom'
 
 function PagedBar(){
+    
     const {allPages, actualPage,} = useSelector(state=>state)
     const dispatch = useDispatch()
 
@@ -32,29 +33,31 @@ function PagedBar(){
             {
                 auxiliarArray.length ? (
                 <>
-                    <Link to={`/home/${actualPage-1}`}>
+                        <Link to={`/home/${actualPage - 1}`} className={style.link}>
                         <button 
                             onClick={() => decrementPage()} 
                             disabled={actualPage === 1 ? true : false} 
-                            className={style.all}>
+                            className={actualPage === 1 ? style.disable : style.all}>
                                 {'<'}
                         </button>
                     </Link>
                     {auxiliarArray.map(el => 
-                        <Link to={`/home/${el}`} key={el}>
+                        <Link to={`/home/${el}`} key={el} className={style.link}>
                             <button 
                                 key={el} 
-                                value={el} 
-                                onClick={(e) => setPage(e)} 
+                                value={el}
+                                onClick={(e) => setPage(e) } 
                                 className={el === actualPage ? style.marker : style.all}>
                                     {el}
+                                    
                             </button>
-                    </Link>)} 
-                    <Link to={`/home/${actualPage + 1}`}>
+                        </Link>)
+                    } 
+                        <Link to={`/home/${actualPage + 1}`} className={style.link}>
                         <button 
                             onClick={() => incrementPage()} 
                             disabled={(actualPage === allPages) ? true : false} 
-                            className={style.all}>
+                                className={actualPage === allPages ? style.disable : style.all}>
                                 {'>'}
                         </button>
                     </Link>

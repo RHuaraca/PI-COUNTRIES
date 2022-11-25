@@ -2,24 +2,11 @@ import { Link } from 'react-router-dom';
 import style from './nav-bar.module.css';
 import { 
     useSelector, 
-//    useDispatch 
 } from 'react-redux';
-//import { useEffect } from 'react';
-//import { getAllCountries, loaderOnOf } from "../redux/actions";
 
 function NavBar (){
     const {actualPage, 
-    //    allCountries, 
-    //    orderName, 
-    //    orderPopulation
     }=useSelector(state=>state);
-    //const dispatch = useDispatch();
-    /* useEffect(() => {
-        if (!allCountries.length) {
-            dispatch(getAllCountries(orderName, orderPopulation))
-            dispatch(loaderOnOf(true))
-        }
-    }, []); */
     return(
         <div className={style.content}>
             <Link to={`/home/${actualPage}`}>

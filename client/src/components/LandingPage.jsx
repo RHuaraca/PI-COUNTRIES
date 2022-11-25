@@ -1,21 +1,17 @@
 import style from './landing-page.module.css';
-import { activeNavBar } from '../redux/actions';
+ import { activeNavBar } from '../redux/actions';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getAllCountries } from '../redux/actions';
-import { useSelector } from 'react-redux';
+ import { useEffect } from 'react';
+ import { useDispatch } from 'react-redux';
 
 export default function LandingPage(){
-    const {orderName, orderPopulation} = useSelector(state=>state)
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(activeNavBar(false))
-        dispatch(getAllCountries(orderName,orderPopulation))
         return ()=>{
             dispatch(activeNavBar(true))
         }
-    },[])
+    },[dispatch])
     return (
         <div className={style.fondo}>
             <div className={style.title}>

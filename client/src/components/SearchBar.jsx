@@ -1,15 +1,13 @@
 import style from './search-bar.module.css';
-import { switchModalActive, getAllCountries } from '../redux/actions';
+import { getAllCountries } from '../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import searchImage from '../assets/searchImage.jpg'
 
 function SearchBar(){
-    const {orderName, orderPopulation} = useSelector(state=>state)
+    const {orderName, orderPopulation, filterByContinent, filterByActivity} = useSelector(state=>state)
     const dispatch = useDispatch();
     function onChangeHandler(e){
-        console.log(e.target.value);
-        dispatch(getAllCountries(orderName, orderPopulation, e.target.value))
-        dispatch(switchModalActive(true))
+        dispatch(getAllCountries(orderName, orderPopulation, filterByContinent, filterByActivity, e.target.value))
     }
 
     return(

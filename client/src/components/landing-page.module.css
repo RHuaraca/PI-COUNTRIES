@@ -2,10 +2,11 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
 }
 
 .title {
-    margin-top: 1em;
+    padding-top: 1em;
     margin-bottom: 0.5 em;
 }
 
@@ -16,7 +17,7 @@
 }
 
 .images {
-    margin-top: 1.5em;
+    padding-top: 1.5em;
     display: flex;
     justify-content: space-evenly;
 }
@@ -40,5 +41,5 @@
     height: 2em;
     font-size: 20px;
     margin-top: 1em;
-    margin-bottom: 7.3em;
+    cursor: pointer;
 }

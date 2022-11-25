@@ -1,7 +1,14 @@
 import style from './country-card.module.css';
 
-function CountryCard({id, name, flag, continent, population}){
+function CountryCard({id, name, flag, continent, population, message}){
     return(
+        <>{message ? <div className={style.content}>
+            <div className={style.contentText}>
+                <div className={style.contentName}>
+                    <h4 className={style.name}>{message}</h4>
+                </div>
+            </div>
+        </div> :
         <div className={style.content}>
             <div className={style.contentImage}>
                 <img src={flag} alt="bandera" className={style.image}/>
@@ -14,7 +21,8 @@ function CountryCard({id, name, flag, continent, population}){
                 <p className={style.text}>population: {population}</p>
                 <button>Details</button>
             </div>
-        </div>
+            </div>}
+        </>
     )
 };
 

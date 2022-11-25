@@ -4,11 +4,14 @@ import {
     LOADER_ON_OFF,
     ERROR_HANDLER,
     ALL_PAGES,
-    ACTUAL_PAGE,
     INCREMENT_ACTUAL_PAGE,
     DECREMENT_ACTUAL_PAGE,
     SET_ACTUAL_PAGE,
-    SWITCH_MODAL_ACTIVE
+    SET_ORDER_NAME,
+    SET_ORDER_POPULATION,
+    GET_ALL_CONTINENTS,
+    GET_ALL_ACTIVITIES,
+    SET_FILTERS
 } from "./actionTypes"
 
 const initialState = {
@@ -24,7 +27,9 @@ const initialState = {
     errorHandler:[],
     allPages:0,
     actualPage:1,
-    modalActive:false
+    filterByContinent:'Not',
+    filterByActivity:'Not',
+    allCountriesToRender:[]
 }
 
 export default function reducer(state = initialState, action) {
@@ -54,11 +59,6 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 allPages:action.payload
             }
-        case ACTUAL_PAGE:
-            return{
-                ...state,
-                actualPage:action.payload
-            }
         case INCREMENT_ACTUAL_PAGE:
             return{
                 ...state,
@@ -74,10 +74,64 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 actualPage:action.payload
             }
-        case SWITCH_MODAL_ACTIVE:
+        case SET_ORDER_NAME:
             return{
                 ...state,
-                modalActive:action.payload 
+                orderName:action.payload
+            }
+        case SET_ORDER_POPULATION:
+            return{
+                ...state,
+                orderPopulation:action.payload
+            }
+        case GET_ALL_CONTINENTS:
+            return{
+                ...state,
+                continents:action.payload
+            }
+        case GET_ALL_ACTIVITIES:
+            return{
+                ...state,
+                activities:action.payload
+            }
+        case SET_FILTERS:
+            /* let filtered = [];
+            if (state.allCountries.length) {
+                console.log(action.payload.continent)
+                if (action.payload.continent !== 'Not' && action.payload.activity !== 'Not') {
+                    filtered = state.allCountries.filter(country => {
+                        return country.continent === action.payload.continent
+                    });
+                    filtered = filtered.filter(country => {
+                        if (country.activities) {
+                            const activityIncluded = country.activities.filter(activity => activity.name === action.payload.activity);
+                            if (activityIncluded.length) return true
+                            else return false
+                        }
+                        return false
+                    })
+                }
+                if (action.payload.continent !== 'Not' && action.payload.activity === 'Not') {
+                    filtered = state.allCountries.filter(country => {
+                        return country.continent === action.payload.continent
+                    });
+                }
+                if (action.payload.continent === 'Not' && action.payload.activity !== 'Not') {
+                    filtered = state.allCountries.filter(country => {
+                        if (country.activities) {
+                            const activityIncluded = country.activities.filter(activity => activity.name === action.payload.activity);
+                            if (activityIncluded.length) return true
+                            else return false
+                        }
+                        return false
+                    })
+                }
+            } */
+            return{
+                ...state,
+                filterByContinent:action.payload.filterByContinent,
+                filterByActivity:action.payload.filterByActivity,
+                //allCountriesToRender:filtered
             }
         default:
             return state

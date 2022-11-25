@@ -1,10 +1,11 @@
-import style from './error-handler.module.css'
+import style from './error-handler.module.css';
+import imageError from '../assets/error.jpg';
 
 function ErrorHandler({error}){
     return(
         <div className={style.content}>
             <h5>An error occurred: {error}</h5>
-            <img src="./assets/error.jpg" alt="error" className={style.image}/>
+            <img src={imageError} alt="error" className={style.image}/>
         </div>
     )
 };
