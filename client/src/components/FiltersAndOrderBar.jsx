@@ -6,7 +6,9 @@ import {
     setOrderPopulation,
     getAllContinents,
     getAllActivities,
-    setActualPage
+    setActualPage,
+    setFilters,
+    resetName
 } from '../redux/actions.js';
 
 function FiltersAndOrderBar (){
@@ -16,13 +18,15 @@ function FiltersAndOrderBar (){
         orderPopulation, 
         continents, 
         errorHandler, 
-        activities
+        activities,
+        filterByContinent,
+        filterByActivity
     }=useSelector(state=>state)
     const [internalState, setInternalState]= useState({
         orderName:orderName,
         orderPopulation:orderPopulation,
-        filterByContinent:'Not',
-        filterByActivity:'Not'
+        filterByContinent:filterByContinent,
+        filterByActivity:filterByActivity
     });
     useEffect(()=>{
         dispatch(getAllContinents())
@@ -43,11 +47,14 @@ function FiltersAndOrderBar (){
             dispatch(getAllCountries(internalState.orderName, e.target.value, internalState.filterByContinent, internalState.filterByActivity));
             //dispatch(setFilters(internalState.filterByContinent, internalState.filterByActivity));
         } else if (e.target.name === "filterByContinent"){
+           dispatch(resetName());
+            dispatch(setFilters(e.target.value, internalState.filterByActivity))
             dispatch(setActualPage(1))
             //dispatch(setFilters(e.target.value, internalState.filterByActivity))
             dispatch(getAllCountries(internalState.orderName, internalState.orderPopulation, e.target.value, internalState.filterByActivity));
         } else if (e.target.name === "filterByActivity") {
-            
+            dispatch(resetName());
+            dispatch(setFilters(internalState.filterByContinent, e.target.value))
             dispatch(setActualPage(1))
             //dispatch(setFilters(internalState.filterByContinent, e.target.value))
             dispatch(getAllCountries(internalState.orderName, internalState.orderPopulation, internalState.filterByContinent, e.target.value));
@@ -72,24 +79,25 @@ function FiltersAndOrderBar (){
             <div>
                 <h4>Filters</h4>
                 <span>By continent</span>
-                <select name="filterByContinent" onChange={(e) => selectHandler(e)}>
-                    {!continents.length? errorHandler.length? 
-                        <option>Failed</option> 
-                        : <option>Cargando...</option>:
-                            <>  
-                                <option value='Not'>All</option>
-                                {continents.map(continent=> 
-                                    <option 
-                                        key={continent.id} 
-                                        value={continent.name}>
-                                            {continent.name}
-                                    </option> )
-                                }
-                            </>
+                <select defaultValue={filterByContinent} name="filterByContinent" onChange={(e) => selectHandler(e)}>
+                    {!continents.length? 
+                        errorHandler.length? 
+                            <option>Failed</option> 
+                        : <option>Cargando...</option>
+                    :<> 
+                        <option value='Not'>All</option>
+                            {continents.map(continent=> 
+                                <option 
+                                    key={continent.id} 
+                                    value={continent.name}>
+                                        {continent.name}
+                                </option> )
+                            }
+                    </>
                     }
                 </select>
                 <span>By activity</span>
-                <select name="filterByActivity" onChange={(e) => selectHandler(e)}>
+                <select defaultValue={filterByActivity} name="filterByActivity" onChange={(e) => selectHandler(e)}>
                     {!activities.length ? errorHandler.length ?
                         <option>Failed</option>
                         : <option>Cargando...</option> :

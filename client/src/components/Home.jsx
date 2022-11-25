@@ -8,11 +8,14 @@ import { getAllCountries, loaderOnOf } from "../redux/actions";
 
 function Home(){
     const dispatch = useDispatch();
-    const {orderName, orderPopulation,filterByContinent, filterByActivity} = useSelector(state=>state)
+    const {orderName, orderPopulation,filterByContinent, filterByActivity, allCountries} = useSelector(state=>state)
     useEffect(() => {
-        dispatch(getAllCountries(orderName, orderPopulation, filterByContinent, filterByActivity))
-        dispatch(loaderOnOf(true))
-    }, []);
+        
+        if(!allCountries.length){
+            dispatch(getAllCountries(orderName, orderPopulation, filterByContinent, filterByActivity))
+            dispatch(loaderOnOf(true))
+        }
+    }, [allCountries, filterByContinent]);
     return(
         <div>
             <SearchBar/>

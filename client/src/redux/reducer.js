@@ -11,7 +11,8 @@ import {
     SET_ORDER_POPULATION,
     GET_ALL_CONTINENTS,
     GET_ALL_ACTIVITIES,
-    SET_FILTERS
+    SET_FILTERS,
+    SET_NAME
 } from "./actionTypes"
 
 const initialState = {
@@ -29,7 +30,8 @@ const initialState = {
     actualPage:1,
     filterByContinent:'Not',
     filterByActivity:'Not',
-    allCountriesToRender:[]
+    allCountriesToRender:[],
+    actualName:""
 }
 
 export default function reducer(state = initialState, action) {
@@ -95,43 +97,16 @@ export default function reducer(state = initialState, action) {
                 activities:action.payload
             }
         case SET_FILTERS:
-            /* let filtered = [];
-            if (state.allCountries.length) {
-                console.log(action.payload.continent)
-                if (action.payload.continent !== 'Not' && action.payload.activity !== 'Not') {
-                    filtered = state.allCountries.filter(country => {
-                        return country.continent === action.payload.continent
-                    });
-                    filtered = filtered.filter(country => {
-                        if (country.activities) {
-                            const activityIncluded = country.activities.filter(activity => activity.name === action.payload.activity);
-                            if (activityIncluded.length) return true
-                            else return false
-                        }
-                        return false
-                    })
-                }
-                if (action.payload.continent !== 'Not' && action.payload.activity === 'Not') {
-                    filtered = state.allCountries.filter(country => {
-                        return country.continent === action.payload.continent
-                    });
-                }
-                if (action.payload.continent === 'Not' && action.payload.activity !== 'Not') {
-                    filtered = state.allCountries.filter(country => {
-                        if (country.activities) {
-                            const activityIncluded = country.activities.filter(activity => activity.name === action.payload.activity);
-                            if (activityIncluded.length) return true
-                            else return false
-                        }
-                        return false
-                    })
-                }
-            } */
             return{
                 ...state,
-                filterByContinent:action.payload.filterByContinent,
-                filterByActivity:action.payload.filterByActivity,
-                //allCountriesToRender:filtered
+                filterByContinent:action.payload.continent,
+                filterByActivity:action.payload.activity
+            }
+        case SET_NAME:
+            console.log(action.payload)
+            return{
+                ...state,
+                actualName:action.payload
             }
         default:
             return state

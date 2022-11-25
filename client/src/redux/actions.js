@@ -11,7 +11,8 @@ import {
     SET_ORDER_POPULATION,
     GET_ALL_CONTINENTS,
     GET_ALL_ACTIVITIES,
-    SET_FILTERS
+    SET_FILTERS,
+    SET_NAME
 } from "./actionTypes";
 
 export function activeNavBar(boolean){
@@ -28,8 +29,9 @@ export function loaderOnOf(boolean){
     }
 }
 
-export function getAllCountries(orderName, orderPopulation, filterByContinent='Not' ,filterByActivity='Not' ,name ) {
+export function getAllCountries(orderName, orderPopulation, filterByContinent='Not', filterByActivity='Not', name ) {
     const filters = {filterByContinent,filterByActivity}
+    //console.log(e.target.value);
     if (name){
         return function (dispatch) {
             return fetch(`http://localhost:3001/countries?name=${name}&orderName=${orderName}&orderPopulation=${orderPopulation}`)
@@ -38,7 +40,6 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                     let filtered = [];
                     if (res.length) {
                         if (filterByContinent !== 'Not' && filterByActivity !== 'Not') {
-
                             filtered = res.filter(country => {
                                 return country.continent === filterByContinent
                             });
@@ -56,6 +57,7 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                             filtered = res.filter(country => {
                                 return country.continent === filterByContinent
                             });
+                            console.log(filtered)
                         }
                         else if (filterByContinent === 'Not' && filterByContinent !== 'Not') {
                             filtered = res.filter(country => {
@@ -71,33 +73,43 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                             console.log('else', filterByContinent)
                             filtered = res
                         }
+                    if(filtered.length){
+                        let numOfPages;
+                        if (filtered.length % 10 === 0) {
+                            numOfPages = filtered.length / 10;
+                        } else {
+                            numOfPages = Math.ceil(filtered.length / 10);
+                        }
+                        dispatch({
+                            type: GET_ALL_COUNTRIES,
+                            payload: filtered
+                        });
+                        dispatch({
+                            type: LOADER_ON_OFF,
+                            payload: false
+                        });
+                        dispatch({
+                            type: ALL_PAGES,
+                            payload: numOfPages
+                        });
+                        return null;
+                    }else{
+                        let numOfPages=1;
+                        dispatch({
+                            type: GET_ALL_COUNTRIES,
+                            payload: [{id:1, message:'Not Found'}]
+                        });
+                        dispatch({
+                            type: LOADER_ON_OFF,
+                            payload: false
+                        });
+                        dispatch({
+                            type: ALL_PAGES,
+                            payload: numOfPages
+                        });
+                        return null;
                     }
-                    let numOfPages;
-                    if (filtered.length % 10 === 0) {
-                        numOfPages = filtered.length / 10;
-                    } else {
-                        numOfPages = Math.ceil(filtered.length / 10);
                     }
-
-
-
-                    dispatch({
-                        type: GET_ALL_COUNTRIES,
-                        payload: filtered
-                    });
-                    dispatch({
-                        type: LOADER_ON_OFF,
-                        payload: false
-                    });
-                    dispatch({
-                        type:ALL_PAGES,
-                        payload:numOfPages
-                    });
-                    dispatch({
-                        type: SET_FILTERS,
-                        payload: filters
-                    });
-                    return null;
                 })
                 .catch(error => {
                     dispatch({
@@ -152,30 +164,43 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                         else {
                             filtered = res
                         }
+                        if (filtered.length) {
+                            let numOfPages;
+                            if (filtered.length % 10 === 0) {
+                                numOfPages = filtered.length / 10;
+                            } else {
+                                numOfPages = Math.ceil(filtered.length / 10);
+                            }
+                            dispatch({
+                                type: GET_ALL_COUNTRIES,
+                                payload: filtered
+                            });
+                            dispatch({
+                                type: LOADER_ON_OFF,
+                                payload: false
+                            });
+                            dispatch({
+                                type: ALL_PAGES,
+                                payload: numOfPages
+                            });
+                            return null;
+                        } else {
+                            let numOfPages = 1;
+                            dispatch({
+                                type: GET_ALL_COUNTRIES,
+                                payload: [{ id: 1, message: 'Not Found' }]
+                            });
+                            dispatch({
+                                type: LOADER_ON_OFF,
+                                payload: false
+                            });
+                            dispatch({
+                                type: ALL_PAGES,
+                                payload: numOfPages
+                            });
+                            return null;
+                        }
                     }
-                    let numOfPages;
-                    if (filtered.length % 10 === 0) {
-                        numOfPages = filtered.length / 10;
-                    } else {
-                        numOfPages = Math.ceil(filtered.length / 10);
-                    }
-                    dispatch ({
-                        type: GET_ALL_COUNTRIES,
-                        payload: filtered
-                    });
-                    dispatch({
-                        type: LOADER_ON_OFF,
-                        payload: false
-                    });
-                    dispatch({
-                        type: ALL_PAGES,
-                        payload: numOfPages
-                    });
-                    dispatch({
-                        type: SET_FILTERS,
-                        payload:filters
-                    });
-                    return null;
                 })
                 .catch(error =>{
                     dispatch( {
@@ -274,5 +299,20 @@ export function setAllPages(pages){
     return{
         type:ALL_PAGES,
         payload:pages
+    }
+}
+
+export function resetName(){
+    const reset="";
+    return{
+        type:SET_NAME,
+        payload:reset
+    }
+}
+
+export function setName(name){
+    return{
+        type:SET_NAME,
+        payload:name
     }
 }
