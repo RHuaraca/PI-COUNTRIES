@@ -10,6 +10,7 @@ import {
     setFilters,
     resetName
 } from '../redux/actions.js';
+import style from './filter-order-bar.module.css'
 
 function FiltersAndOrderBar (){
     const dispatch = useDispatch()
@@ -61,58 +62,70 @@ function FiltersAndOrderBar (){
         }
     }
     return(
-        <div>
-            <div>
-                <h4>Orders</h4>
-                <span>By name</span>
-                <select name="orderName" onChange={(e)=>selectHandler(e)}>
-                    <option value="AZ">from A to Z</option>
-                    <option value="ZA">from Z to A</option>
-                </select>
-                <span>By population</span>
-                <select name="orderPopulation" onChange={(e) => selectHandler(e)}>
-                    <option value="Not">No order</option>
-                    <option value="Max">from Max to Min</option>
-                    <option value="Min">from Min to Max</option>
-                </select>
+        <div className={style.content}>
+            <div className={style.ordersAndFiltersContent}>
+                <h4 className={style.title}>Orders</h4>
+                <div className={style.nameAndSelect}>
+                    <div className={style.orderFilterSelect}>
+                        <span>By name</span>
+                        <select name="orderName" onChange={(e) => selectHandler(e)}>
+                            <option value="AZ">from A to Z</option>
+                            <option value="ZA">from Z to A</option>
+                        </select>
+                    </div>
+                    <div className={style.orderFilterSelect}>
+                        <span>By population</span>
+                        <select name="orderPopulation" onChange={(e) => selectHandler(e)}>
+                            <option value="Not">No order</option>
+                            <option value="Max">from Max to Min</option>
+                            <option value="Min">from Min to Max</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h4>Filters</h4>
-                <span>By continent</span>
-                <select defaultValue={filterByContinent} name="filterByContinent" onChange={(e) => selectHandler(e)}>
-                    {!continents.length? 
-                        errorHandler.length? 
-                            <option>Failed</option> 
-                        : <option>Cargando...</option>
-                    :<> 
-                        <option value='Not'>All</option>
-                            {continents.map(continent=> 
-                                <option 
-                                    key={continent.id} 
-                                    value={continent.name}>
-                                        {continent.name}
-                                </option> )
+            <div className={style.ordersAndFiltersContent}>
+                <h4 className={style.title}>Filters</h4>
+                <div className={style.nameAndSelect}>
+                    <div className={style.orderFilterSelect}>
+                        <span>By continent</span>
+                        <select defaultValue={filterByContinent} name="filterByContinent" onChange={(e) => selectHandler(e)}>
+                            {!continents.length ?
+                                errorHandler.length ?
+                                    <option>Failed</option>
+                                    : <option>Cargando...</option>
+                                : <>
+                                    <option value='Not'>All</option>
+                                    {continents.map(continent =>
+                                        <option
+                                            key={continent.id}
+                                            value={continent.name}>
+                                            {continent.name}
+                                        </option>)
+                                    }
+                                </>
                             }
-                    </>
-                    }
-                </select>
-                <span>By activity</span>
-                <select defaultValue={filterByActivity} name="filterByActivity" onChange={(e) => selectHandler(e)}>
-                    {!activities.length ? errorHandler.length ?
-                        <option>Failed</option>
-                        : <option>Cargando...</option> :
-                        <>
-                            <option value='Not'>All</option>
-                            {activities.map(activity =>
-                                <option
-                                    key={activity.id}
-                                    value={activity.name}>
-                                    {activity.name}
-                                </option>)
+                        </select>
+                    </div>
+                    <div className={style.orderFilterSelect}>
+                        <span>By activity</span>
+                        <select defaultValue={filterByActivity} name="filterByActivity" onChange={(e) => selectHandler(e)}>
+                            {!activities.length ? errorHandler.length ?
+                                <option>Failed</option>
+                                : <option>Cargando...</option> :
+                                <>
+                                    <option value='Not'>All</option>
+                                    {activities.map(activity =>
+                                        <option
+                                            key={activity.id}
+                                            value={activity.name}>
+                                            {activity.name}
+                                        </option>)
+                                    }
+                                </>
                             }
-                        </>
-                    }
-                </select>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     )

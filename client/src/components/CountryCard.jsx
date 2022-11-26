@@ -1,4 +1,5 @@
 import style from './country-card.module.css';
+import {Link} from 'react-router-dom'
 
 function CountryCard({id, name, flag, continent, population, message}){
     return(
@@ -19,7 +20,10 @@ function CountryCard({id, name, flag, continent, population, message}){
                 </div>
                 <p className={style.text}>continent: {continent}</p>
                 <p className={style.text}>population: {population}</p>
-                <button>Details</button>
+                <Link to={`/detail/${id}`}>
+                    <button className={style.button}>Details</button>
+                </Link>
+                
             </div>
             </div>}
         </>

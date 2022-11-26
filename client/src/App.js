@@ -4,6 +4,8 @@ import LandingPage from './components/LandingPage';
 import Home from './components/Home';
 import NavBar from './components/NavBar';
 import { useSelector } from 'react-redux';
+import DetailCard from './components/DetailCard';
+import AllActivities from './components/AllActivities';
 
 function App() {
   const {navBarActive, actualPage} = useSelector(state=>state)
@@ -12,8 +14,12 @@ function App() {
       {navBarActive ? <div> <NavBar /> </div> : null}
       <Switch>
         <Route exact path='/'><LandingPage /></Route>
-        <Route path={`/home/${actualPage}`}> <Home /> </Route>
-        <Redirect to={`/home/${actualPage}`}/>
+        <Route exact path={`/home/${actualPage}`}> <Home /> </Route>
+        <Route exact path={`/detail/:id`}> <DetailCard/> </Route>
+        <Route exact path={`/allActivities`}><AllActivities/></Route>
+        <Route path='*'>
+          <Redirect to={`/home/${actualPage}`} />
+        </Route>
       </Switch>
     </div>
   );

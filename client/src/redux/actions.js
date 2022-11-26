@@ -12,7 +12,9 @@ import {
     GET_ALL_CONTINENTS,
     GET_ALL_ACTIVITIES,
     SET_FILTERS,
-    SET_NAME
+    SET_NAME,
+    GET_COUNTRY_DETAIL,
+    CLEAN_COUNTRY_DETAIL
 } from "./actionTypes";
 
 export function activeNavBar(boolean){
@@ -31,7 +33,6 @@ export function loaderOnOf(boolean){
 
 export function getAllCountries(orderName, orderPopulation, filterByContinent='Not', filterByActivity='Not', name ) {
     const filters = {filterByContinent,filterByActivity}
-    //console.log(e.target.value);
     if (name){
         return function (dispatch) {
             return fetch(`http://localhost:3001/countries?name=${name}&orderName=${orderName}&orderPopulation=${orderPopulation}`)
@@ -314,5 +315,30 @@ export function setName(name){
     return{
         type:SET_NAME,
         payload:name
+    }
+}
+
+export function getCountryDetail (id){
+    
+    return function(dispatch){
+        return fetch(`http://localhost:3001/countries/${id}`)
+            .then(res => res.json())
+            .then(res => 
+                dispatch({
+                    type:GET_COUNTRY_DETAIL,
+                    payload:res
+                }))
+            .catch(error => {
+            dispatch({
+                type: ERROR_HANDLER,
+                payload: error.message
+            })
+        })
+    }
+}
+
+export function cleanCountryDetail(){
+    return{
+        type:CLEAN_COUNTRY_DETAIL
     }
 }

@@ -1,0 +1,27 @@
+.content{
+    margin: 0.5rem;
+    width: 10em;
+    background-color: rgba(245, 245, 220, 0.783);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    box-shadow: 0 0 10px #444444;
+    border-radius: 3px;
+}
+.contentText {
+    height: 7rem;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.contentCountries{
+    display: flex;
+    flex-direction: column;
+}
+.countriesList{
+    padding-left: 10px;
+    list-style: none;
+}
+.countryLi{
+    text-align: start;
+}

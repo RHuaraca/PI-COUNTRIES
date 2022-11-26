@@ -44,6 +44,7 @@ function CountriesCards(){
                      (!!countriesByPage[0].error ) ? 
                         countriesByPage.map((error,i)=> <ErrorHandler error={error.error} key={i}/>)
                      :countriesByPage.map(country => <CountryCard
+                        id={country.id}
                         key={country.id}
                         name={country.name}
                         flag={country.flag}
