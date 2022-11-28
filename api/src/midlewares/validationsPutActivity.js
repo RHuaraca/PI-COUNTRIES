@@ -4,7 +4,7 @@ const validationsPutActivity = async (req, res, next) => {
     const { name, difficulty, duration, season, countries } = req.body;
     try {
         const errors = []
-        if (name && !/^[a-zA-Z]{1,46}(( ?[a-zA-Z]+)*?[a-zA-Z]{1,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
+        if (name && !/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{1,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
 
         if (name) {
             const activity = await Activity.findOne({ where: { name: name } })

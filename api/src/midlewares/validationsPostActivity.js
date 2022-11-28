@@ -10,7 +10,7 @@ const validationsPostActivity = async (req, res, next) => {
         if (!season) errors.push({ error: 'season is required' });
         if (!countries) errors.push({ error: "countries is required if not value send '[]'" })
 
-        if (name && !/^[a-zA-Z]{1,46}(( ?[a-zA-Z]+)*?[a-zA-Z]{1,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
+        if (name && !/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{1,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
 
         if (difficulty && !Number(difficulty) >= 1) errors.push({ error: `'${difficulty}' must be a number` });
 

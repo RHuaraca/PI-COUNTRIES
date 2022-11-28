@@ -1,0 +1,15 @@
+.formContainer{
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 25em;
+    max-width: 25em;
+}
+.orderInLine{
+    display: flex;
+}
+.countriesContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
