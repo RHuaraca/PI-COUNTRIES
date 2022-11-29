@@ -14,7 +14,8 @@ import {
     SET_FILTERS,
     SET_NAME,
     GET_COUNTRY_DETAIL,
-    CLEAN_COUNTRY_DETAIL
+    CLEAN_COUNTRY_DETAIL,
+    CLEAN_COUNTRTIES
 } from "./actionTypes"
 
 const initialState = {
@@ -119,6 +120,11 @@ export default function reducer(state = initialState, action) {
             return{
                 ...state,
                 country:[]
+            }
+        case CLEAN_COUNTRTIES:
+            return{
+                ...state,
+                allCountries:[]
             }
         default:
             return state

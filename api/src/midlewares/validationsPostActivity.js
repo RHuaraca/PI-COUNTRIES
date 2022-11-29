@@ -10,7 +10,7 @@ const validationsPostActivity = async (req, res, next) => {
         if (!season) errors.push({ error: 'season is required' });
         if (!countries) errors.push({ error: "countries is required if not value send '[]'" })
 
-        if (name && !/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{1,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
+        if (name && !/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{0,46})?$/.test(name)) errors.push({ error: `'${name}' must not contain numbers, symbols, special characters, or spaces at the beginning or end` });
 
         if (difficulty && !Number(difficulty) >= 1) errors.push({ error: `'${difficulty}' must be a number` });
 
@@ -29,7 +29,7 @@ const validationsPostActivity = async (req, res, next) => {
             activity ? errors.push({ error: `'${name}' already exists` }) : null;
         }
 
-        if (countries.length) {
+        if (countries && countries.length) {
             let existCountry
             const countryErrors = await Promise.all(countries.map(async country => {
                 existCountry = await Country.findByPk(country)
@@ -43,6 +43,7 @@ const validationsPostActivity = async (req, res, next) => {
         if (errors.length) return res.status(400).send(errors)
         next();
     } catch (error) {
+        console.log(error)
         res.status(500).send([{error:error.message}])
     }
 }

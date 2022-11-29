@@ -14,7 +14,8 @@ import {
     SET_FILTERS,
     SET_NAME,
     GET_COUNTRY_DETAIL,
-    CLEAN_COUNTRY_DETAIL
+    CLEAN_COUNTRY_DETAIL,
+    CLEAN_COUNTRTIES
 } from "./actionTypes";
 
 export function activeNavBar(boolean){
@@ -340,5 +341,11 @@ export function getCountryDetail (id){
 export function cleanCountryDetail(){
     return{
         type:CLEAN_COUNTRY_DETAIL
+    }
+}
+
+export function cleanCountries(){
+    return{
+        type:CLEAN_COUNTRTIES
     }
 }

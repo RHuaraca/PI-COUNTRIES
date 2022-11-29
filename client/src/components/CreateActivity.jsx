@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountries } from "../redux/actions";
+import { getAllActivities, getAllCountries } from "../redux/actions";
+import ActivityCard from "./ActivityCard";
 import style from './create-activity.module.css';
+import ErrorHandler from "./ErrorHandler";
+import { Link } from "react-router-dom";
 
 function CreateActivity (){
     const dispatch = useDispatch()
-    const { allCountries } = useSelector(state => state);
+    const { allCountries, activities } = useSelector(state => state);
     const seasons = ['summer', 'autumn', 'winter', 'spring'];
+    let searchingCountry;
+    let hours;
     const [errors, setErrors] = useState({
         name:'obligatory',
         duration:'obligatory',
@@ -18,7 +23,11 @@ function CreateActivity (){
         difficulty:3,
         countries:[]
     });
+
     useEffect(()=>{
+        if(!activities.length){
+            dispatch(getAllActivities())
+        }
         if (!allCountries.length){
             dispatch(getAllCountries('AZ', 'Not', 'Not', 'Not'))
         }
@@ -29,14 +38,23 @@ function CreateActivity (){
             })
         }
     },[allCountries])
+
     function validators(state){
         let errors={}
         if(!state.name) errors.name='obligatory';
         else if (/^\s+\w+/.test(state.name)) errors.name = 'must not have spaces at the beginning';
         else if (/\w+\s+$/.test(state.name)) errors.name = 'should not have spaces at the end';
         else if (/[^a-zA-Z'\sñáéíóúÁÉÍÓÚÄËÏÖÜäëïöü]/.test(state.name)) errors.name = 'must not contain special characters or numbers';
-        else if (!/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{1,46})?$/.test(state.name)) errors.name ="the name must have the following form 'word ... word'";
+        else if (!/^[a-zA-Z']{1,46}(( ?[a-zA-Z']+)*?[a-zA-Z']{0,46})?$/.test(state.name)) errors.name ="the name must have the following form 'word ... word'";
         else if (state.name.length > 50) errors.name = 'must not exceed fifty characters';
+        else if (state.name){
+            let match = activities.filter(activity=> activities.map(activitySearch=>{
+                if(activitySearch.name===state.name)return true
+            }).includes(true))
+            if (match.length){
+                errors.name = 'this activity already exists';
+            } 
+        }
 
         if (!state.durationDay && !state.durationHours) errors.duration = 'time obligatory';
         else if (!state.durationDay && state.durationHours === "") errors.duration = 'time obligatory';
@@ -47,6 +65,7 @@ function CreateActivity (){
         else if (state.durationDay === "0" && !state.durationHours) errors.duration = 'time obligatory';
         else if (state.durationDay === "0" && state.durationHours === "") errors.duration = 'time obligatory';
         else if (state.durationDay === "0" && state.durationHours === "00:00") errors.duration = 'time obligatory';
+        else if (state.durationDay%1 !== 0) errors.duration = 'the days must be integers';
         else if (state.durationDay > 90) errors.duration = 'exceeds the time of a season';
         else if (state.durationDay < 0) errors.duration = 'time cannot be less than zero';
 
@@ -56,6 +75,7 @@ function CreateActivity (){
 
         return errors;
     }
+
     function updateList(e){
         console.log(e.target.value)
         if (e.target.value!=='all'){
@@ -70,7 +90,7 @@ function CreateActivity (){
             })
         }
     }
-    let searchingCountry;
+
     function handleInputChange(e){
         console.log(e)
         if (e.target.name==='countries'){
@@ -95,10 +115,47 @@ function CreateActivity (){
         console.log(e.target.name)
         console.log(e.target.value)
     }
+
     function handleOnSubmit(e) {
-        console.log(e.target.value)
+        e.preventDefault();
+        let duration;
+        if(state.durationDay){
+            duration = state.durationDay*24;
+        }
+        if(state.durationHours){
+            if(Number(hours[0])!==0){
+                duration = duration + Number(hours[0]);
+            }
+            if(Number(hours[1])!==0){
+                duration = duration + Math.round((Number(hours[1])/60)*100)/100;
+            }
+        }
+        let toSend = {
+            name:state.name,
+            difficulty:state.difficulty,
+            season:state.season,
+            countries: state.countries.map(country=>country.id),
+            duration:duration
+        }
+        console.log(toSend);
+        fetch('http://localhost:3001/activities', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toSend)
+        })
+            .then(res => res.json())
+            .then(res => setState({
+                ...state,
+                response:res
+            }))
+            .catch(res => setState({
+                ...state,
+                response:res
+            }))
     }
-    
     function deleteOfSelectedList(e){
         console.log(e)
         e.preventDefault();
@@ -112,12 +169,17 @@ function CreateActivity (){
                 return !searchingCountry.includes(true);
             })
         })
+        setErrors(validators({
+            ...state,
+            countries: state.countries.filter(country => !(country.id === e.target.value))
+        }))
     }
-    let hours
+
     if(state.durationHours){
         hours = state.durationHours.split(':');
         console.log(hours[1])
     }
+
     return(
         <div className={style.container}>
             <h2>CREATE NEW ACTIVITY</h2>
@@ -126,9 +188,10 @@ function CreateActivity (){
                 <div className={style.orderInLine}>
                     <input onChange={(e) => handleInputChange(e)} type="text" name="name" />
                     {!errors.name ? <span style={{ color: 'green' }}>✔</span> : <span style={{ color: "red" }}>✘</span>}
+                    <input type="submit" value='Ready to Submit' className={(Object.keys(errors).length)?style.sendInvisible:style.sendVisible}/>
                 </div>
                 {errors.name ? <span style={{ color: "red" }}> {errors.name}</span> : <span style={{ color: "transparent" }}>.</span>}
-
+                
                 <br />
                 <label >difficulty:</label>
                 <div className={style.orderInLine}>
@@ -190,13 +253,40 @@ function CreateActivity (){
                     {!state.countries.length ?
                         <span style={{ color: "red" }}>{errors.countries}</span>
                     :state.countries.map(country=>
-                        <div key={country.id}>
+                        <div key={country.id} className={style.cuntryContainer}>
                             <span>{country.name}</span>
                             <button onClick={(e) => deleteOfSelectedList(e)} value={country.id}>X</button>
                         </div>
                         )}
                 </div>
             </form>
+            <div className={!state.response || state.response === null ? style.responseInvisible : style.responseVisible }>
+                {state.response ?
+                    state.response[0].error ?
+                        <>
+                        {state.response.map((error, i) =>
+                            <ErrorHandler key={i} error={error.error} />)}
+                        <button onClick={() => window.location.reload()}>Try again</button>
+                        <Link to='/home/1'>
+                            <button >Go to Home</button>
+                        </Link>
+                        </>
+                        :<>
+                            <h4>Success</h4>
+                        <ActivityCard
+                            name={state.response[0].name}
+                            difficulty={state.response[0].difficulty}
+                            duration={state.response[0].duration}
+                            season={state.response[0].season}
+                            countries={state.response[0].countries} />
+                            <button onClick={()=>window.location.reload()}>Create new</button>
+                            <Link to='/home/1'>
+                                <button >Go to Home</button>
+                            </Link>
+                        </>
+                    : null
+                }
+            </div>
         </div>
     )
 }
