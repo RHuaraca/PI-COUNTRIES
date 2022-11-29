@@ -19,6 +19,7 @@ function App() {
         <Route exact path={`/detail/:id`}> <DetailCard/> </Route>
         <Route exact path={`/allActivities`}><AllActivities/></Route>
         <Route exact path={'/addActivity'}><CreateActivity/></Route>
+        <Route exact path={`/deleteActivity`}><AllActivities delet={true}/> </Route>
         <Route path='*'>
           <Redirect to={`/home/${actualPage}`} />
         </Route>

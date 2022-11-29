@@ -156,6 +156,7 @@ function CreateActivity (){
                 response:res
             }))
     }
+    
     function deleteOfSelectedList(e){
         console.log(e)
         e.preventDefault();
