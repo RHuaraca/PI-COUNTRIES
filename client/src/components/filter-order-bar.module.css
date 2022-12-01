@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding-left: 7em;
-    padding-right: 7em;
+   /*  padding-left: 7em;
+    padding-right: 7em; */
 }
 .ordersAndFiltersContent{
     display: flex;

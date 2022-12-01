@@ -51,7 +51,7 @@ function DetailCard (){
                     <p>continent: {continent}</p>
                     <p>subregion: {subregion}</p>
                     <p>area: {area}Km2</p>
-                    <p>capiatl: {capital}</p>
+                    <p>capital: {capital}</p>
                     <p>population: {population}</p>
                 </div>
                 <div className={style.imageContent}>

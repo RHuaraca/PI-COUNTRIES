@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllActivities, getAllCountries } from "../redux/actions";
+import { getAllActivities, getAllCountries, loaderOnOf, errorHandlerAdd } from "../redux/actions";
 import ActivityCard from "./ActivityCard";
 import style from './create-activity.module.css';
 import ErrorHandler from "./ErrorHandler";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 function CreateActivity (){
     const dispatch = useDispatch()
-    const { allCountries, activities } = useSelector(state => state);
+    const { allCountries, activities, errorHandler } = useSelector(state => state);
     const seasons = ['summer', 'autumn', 'winter', 'spring'];
     let searchingCountry;
     let hours;
@@ -34,10 +34,15 @@ function CreateActivity (){
         if(allCountries.length){
             setState({
                 ...state,
-                countriesList: allCountries
+                countriesList: !state.countries?allCountries:allCountries.filter(country => {
+                    searchingCountry = state.countries.map(countryInSelect => {
+                        if (countryInSelect.id === country.id) return true;
+                    })
+                    return !searchingCountry.includes(true);
+                })
             })
         }
-    },[allCountries])
+    },[allCountries, state.countries])
 
     function validators(state){
         let errors={}
@@ -65,7 +70,7 @@ function CreateActivity (){
         else if (state.durationDay === "0" && !state.durationHours) errors.duration = 'time obligatory';
         else if (state.durationDay === "0" && state.durationHours === "") errors.duration = 'time obligatory';
         else if (state.durationDay === "0" && state.durationHours === "00:00") errors.duration = 'time obligatory';
-        else if (state.durationDay%1 !== 0) errors.duration = 'the days must be integers';
+        else if (state.durationDay && state.durationDay%1 !== 0) errors.duration = 'the days must be integers';
         else if (state.durationDay > 90) errors.duration = 'exceeds the time of a season';
         else if (state.durationDay < 0) errors.duration = 'time cannot be less than zero';
 
@@ -116,9 +121,9 @@ function CreateActivity (){
         console.log(e.target.value)
     }
 
-    function handleOnSubmit(e) {
+    async function handleOnSubmit(e) {
         e.preventDefault();
-        let duration;
+        let duration=0;
         if(state.durationDay){
             duration = state.durationDay*24;
         }
@@ -151,10 +156,12 @@ function CreateActivity (){
                 ...state,
                 response:res
             }))
-            .catch(res => setState({
-                ...state,
-                response:res
-            }))
+            .catch(error =>
+                setState({
+                    ...state,
+                    response:{error:error.message}
+                })
+            )
     }
     
     function deleteOfSelectedList(e){
@@ -162,13 +169,7 @@ function CreateActivity (){
         e.preventDefault();
         setState({
             ...state,
-            countries:state.countries.filter(country=>!(country.id===e.target.value)),
-            countriesList: allCountries.filter(country => {
-                searchingCountry = state.countries.map(countryInSelect => {
-                    if (countryInSelect.id === country.id) return true;
-                })
-                return !searchingCountry.includes(true);
-            })
+            countries:state.countries.filter(country=>!(country.id===e.target.value))
         })
         setErrors(validators({
             ...state,
@@ -240,7 +241,8 @@ function CreateActivity (){
                     <label>select countries</label>
                     {errors.countries ? <span style={{ color: "red" }}>✘</span> : <span style={{ color: 'green' }}>✔</span>}
                 </div>
-                {!state.countriesList.length ? <p>Loading...</p> :
+                {errorHandler.length? errorHandler.map(error=><ErrorHandler error={error.error}/>)
+                :!state.countriesList.length ? <p>Loading...</p> :
                     <select name="countries" onChange={(e) => handleInputChange(e)} onClick={(e)=>updateList(e)}>
                         <option value="all">All Countries</option>
                         {state.countriesList.map(country => (
@@ -261,25 +263,27 @@ function CreateActivity (){
                         )}
                 </div>
             </form>
-            <div className={!state.response || state.response === null ? style.responseInvisible : style.responseVisible }>
-                {state.response ?
-                    state.response[0].error ?
+            <div className={!state.response? style.responseInvisible : style.responseVisible }>
+                {   state.response ?
+                    state.response.error?
                         <>
-                        {state.response.map((error, i) =>
-                            <ErrorHandler key={i} error={error.error} />)}
+                        <h4>Error</h4>
+                        <ErrorHandler key={1} error={state.response.error}/>
                         <button onClick={() => window.location.reload()}>Try again</button>
                         <Link to='/home/1'>
                             <button >Go to Home</button>
                         </Link>
                         </>
-                        :<>
+                    :<>
                             <h4>Success</h4>
-                        <ActivityCard
+                            <div className={style.activityCardContainer}>
+                            <ActivityCard
                             name={state.response[0].name}
                             difficulty={state.response[0].difficulty}
                             duration={state.response[0].duration}
                             season={state.response[0].season}
                             countries={state.response[0].countries} />
+                            </div>
                             <button onClick={()=>window.location.reload()}>Create new</button>
                             <Link to='/home/1'>
                                 <button >Go to Home</button>

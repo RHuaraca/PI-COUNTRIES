@@ -40,24 +40,22 @@ function FiltersAndOrderBar (){
             [e.target.name]:e.target.value
         })
         if(e.target.name==="orderName"){
+            dispatch(resetName());
             dispatch(setOrderName(e.target.value));
             dispatch(getAllCountries(e.target.value, internalState.orderPopulation, internalState.filterByContinent, internalState.filterByActivity));
-            //dispatch(setFilters(internalState.filterByContinent, internalState.filterByActivity));
         } else if (e.target.name === "orderPopulation"){
+            dispatch(resetName());
             dispatch(setOrderPopulation(e.target.value));
             dispatch(getAllCountries(internalState.orderName, e.target.value, internalState.filterByContinent, internalState.filterByActivity));
-            //dispatch(setFilters(internalState.filterByContinent, internalState.filterByActivity));
         } else if (e.target.name === "filterByContinent"){
-           dispatch(resetName());
+            dispatch(resetName());
             dispatch(setFilters(e.target.value, internalState.filterByActivity))
             dispatch(setActualPage(1))
-            //dispatch(setFilters(e.target.value, internalState.filterByActivity))
             dispatch(getAllCountries(internalState.orderName, internalState.orderPopulation, e.target.value, internalState.filterByActivity));
         } else if (e.target.name === "filterByActivity") {
             dispatch(resetName());
             dispatch(setFilters(internalState.filterByContinent, e.target.value))
             dispatch(setActualPage(1))
-            //dispatch(setFilters(internalState.filterByContinent, e.target.value))
             dispatch(getAllCountries(internalState.orderName, internalState.orderPopulation, internalState.filterByContinent, e.target.value));
         }
     }
@@ -68,17 +66,17 @@ function FiltersAndOrderBar (){
                 <div className={style.nameAndSelect}>
                     <div className={style.orderFilterSelect}>
                         <span>By name</span>
-                        <select name="orderName" onChange={(e) => selectHandler(e)}>
+                        <select defaultValue={orderName} name="orderName" onChange={(e) => selectHandler(e)}>
                             <option value="AZ">from A to Z</option>
                             <option value="ZA">from Z to A</option>
                         </select>
                     </div>
                     <div className={style.orderFilterSelect}>
                         <span>By population</span>
-                        <select name="orderPopulation" onChange={(e) => selectHandler(e)}>
+                        <select defaultValue={orderPopulation} name="orderPopulation" onChange={(e) => selectHandler(e)}>
                             <option value="Not">No order</option>
-                            <option value="Max">from Max to Min</option>
-                            <option value="Min">from Min to Max</option>
+                            <option value="Max">Max to Min</option>
+                            <option value="Min">Min to Max</option>
                         </select>
                     </div>
                 </div>

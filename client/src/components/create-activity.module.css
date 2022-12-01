@@ -42,6 +42,9 @@
     background-color: rgb(104, 104, 209);
     cursor: pointer;
 }
+.activityCardContainer{
+    margin-bottom: 1em;
+}
 .responseInvisible{
     display: none;
 }

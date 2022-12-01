@@ -33,7 +33,7 @@ export function loaderOnOf(boolean){
 }
 
 export function getAllCountries(orderName, orderPopulation, filterByContinent='Not', filterByActivity='Not', name ) {
-    const filters = {filterByContinent,filterByActivity}
+    
     if (name){
         return function (dispatch) {
             return fetch(`http://localhost:3001/countries?name=${name}&orderName=${orderName}&orderPopulation=${orderPopulation}`)
@@ -47,7 +47,7 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                             });
                             filtered = filtered.filter(country => {
                                 if (country.activities) {
-                                    const activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
+                                    let activityIncluded = country.activities.filter(activity => activity.name === filterByActivity);
                                     if (activityIncluded.length) return true
                                     else return false
                                 }
@@ -72,7 +72,6 @@ export function getAllCountries(orderName, orderPopulation, filterByContinent='N
                             })
                         }
                         else {
-                            console.log('else', filterByContinent)
                             filtered = res
                         }
                     if(filtered.length){
@@ -347,5 +346,12 @@ export function cleanCountryDetail(){
 export function cleanCountries(){
     return{
         type:CLEAN_COUNTRTIES
+    }
+}
+
+export function errorHandlerAdd(message){
+    return{
+        type: ERROR_HANDLER,
+        payload:message
     }
 }

@@ -33,7 +33,7 @@ function AllActivities({delet}){
     }
     
     return(
-        <div>
+        <div className={style.allActivitiesContainer}>
             {delet? <h2>SELECT AND DELETE ACTIVITIES </h2> : <h2>ALL ACTIVITIES</h2>}
             <div className={style.activitiesContainer}>
                 {!activities.length ?
