@@ -4,11 +4,11 @@ function ActivityCard ({name, difficulty, duration, season, countries}){
     return(
         <div className={style.content}>
             <div className={style.contentText}>
-                <h5>{name}</h5>
-                <p>difficulty: {difficulty}</p>
-                <p>season: {season}</p>
+                <h5>{name.toUpperCase()}</h5>
+                <p><strong>Difficulty:</strong> {difficulty}</p>
+                <p><strong>Season:</strong> {season}</p>
                 <div>
-                    <p>duration: {duration >= 24 ?
+                    <p><strong>Duration:</strong> {duration >= 24 ?
                         <> <span>{Math.floor(duration / 24) > 1 ? `${Math.floor(duration / 24)} days ` : `${Math.floor(duration / 24)} day `}</span>
                             <span>{duration - (Math.floor(duration / 24) * 24) > 0 ? Math.floor(duration - (Math.floor(duration / 24) * 24)) > 1 ? `${Math.floor(duration - (Math.floor(duration / 24) * 24))} hours ` : `${Math.floor(duration - (Math.floor(duration / 24) * 24))} hour ` : null}</span>
                             <span>{duration - (Math.floor(duration / 24) * 24) > 0 ? Math.floor((duration - (Math.floor(duration / 24) * 24) - Math.floor(duration - (Math.floor(duration / 24) * 24))) * 60) > 1 ? `${Math.floor((duration - (Math.floor(duration / 24) * 24) - Math.floor(duration - (Math.floor(duration / 24) * 24))) * 60)} minutes` : `${Math.floor((duration - (Math.floor(duration / 24) * 24) - Math.floor(duration - (Math.floor(duration / 24) * 24))) * 60)} minutes` : null}</span>
@@ -27,6 +27,8 @@ function ActivityCard ({name, difficulty, duration, season, countries}){
             <div className={style.contentCountries}>
                 {countries ?
                     countries.length ?
+                        <>
+                        <p><strong>Countries: </strong></p>
                         <ul className={style.countriesList}>
                             {
                                 countries.map((country, i) =>
@@ -35,6 +37,7 @@ function ActivityCard ({name, difficulty, duration, season, countries}){
                                     </li>)
                             }
                         </ul>
+                        </>
                         : <h6>There are no countries</h6>
                     : null}
             </div>

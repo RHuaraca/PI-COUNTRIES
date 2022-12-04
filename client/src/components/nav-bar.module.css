@@ -1,8 +1,10 @@
 .content{
+    background-color:rgba(127, 255, 212, 0.592);
     width: 11rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    height: 100vh;
 }
 .logo{
     width: 8rem;
@@ -18,12 +20,25 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    /* border-right: 1px solid #727272; */
+    width: 100%;
+    padding-left: 0;
+}
+
+.link{
+    width: 100%;
 }
 .item{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    padding-left: 10%;
     display: inline-block;
     color: black;
     font-weight: bold;
+    width: 90%;
+    text-align: initial;
+    border-bottom: solid 1px black;
+}
+
+.item:hover {
+    background-color: rgb(61, 204, 212);
 }

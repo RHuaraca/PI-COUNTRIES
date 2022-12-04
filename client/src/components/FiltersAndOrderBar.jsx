@@ -30,9 +30,9 @@ function FiltersAndOrderBar (){
         filterByActivity:filterByActivity
     });
     useEffect(()=>{
-        dispatch(getAllContinents())
-        dispatch(getAllActivities())
-    },[dispatch]);
+        if(!continents.length) dispatch(getAllContinents())
+        if (!activities.length) dispatch(getAllActivities())
+    },[]);
 
     function selectHandler(e){
         setInternalState({

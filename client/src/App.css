@@ -7,6 +7,12 @@
   min-height: 100vh;
   height: auto;
 }
+
+.SearchAndHomeContainer{
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
 /* arriba mis modificaciones */
 .App {
   text-align: center;

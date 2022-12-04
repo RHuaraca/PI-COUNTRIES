@@ -12,14 +12,14 @@ function CountryCard({id, name, flag, continent, population, message}){
         </div> :
         <div className={style.content}>
             <div className={style.contentImage}>
-                <img src={flag} alt="bandera" className={style.image}/>
+                <img src={flag} alt="flag" className={style.image}/>
             </div>
             <div className={style.contentText}>
                 <div className={style.contentName}>
-                    <h4 className={style.name}>{name}</h4>
+                    <h4 className={style.name}>{name.toUpperCase()}</h4>
                 </div>
-                <p className={style.text}>continent: {continent}</p>
-                <p className={style.text}>population: {population}</p>
+                    <p className={style.text}><strong>Continent:</strong> {continent}</p>
+                    <p className={style.text}><strong>Population: </strong>  {population}</p>
                 <Link to={`/detail/${id}`}>
                     <button className={style.button}>Details</button>
                 </Link>

@@ -16,10 +16,14 @@
     flex-direction: column;
 }
 .contentText h5{
-    margin-top: 0.7em;
+    background-color: rgb(255, 255, 113);
+    margin-top: 0;
+    padding-top: 0.7em;
     padding-bottom: 0.7em;
     margin-bottom: 0.5em;
     border-bottom: #757272 solid 1px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .contentText p{
     margin-top: 0;
@@ -36,6 +40,11 @@
 .contentCountries{
     display: flex;
     flex-direction: column;
+}
+.contentCountries p{
+    margin: 0;
+    margin-left: 1em;
+    text-align: start;
 }
 .countriesList{
     padding-left: 10px;

@@ -37,28 +37,30 @@ function DetailCard (){
         activities = country[0].activities;
     }
     return(
+        <div className={style.contentMax}>
         <div className={style.content}>
             {!country.length?    
                 <h2>Not Found</h2>
-            :<><div>
+            :<><div className={style.titleContainer}>
                 <div className={style.contentTitleImage}>
                     <button onClick={() => window.history.back()} className={style.buttonBack}>Go Back</button>
-                    <h2>{name}</h2>
+                    <h2>{name.toUpperCase()}</h2>
                 </div>     
             </div>
             <div className={style.subContent}>
-                <div className={style.textContent}>
-                    <p>continent: {continent}</p>
-                    <p>subregion: {subregion}</p>
-                    <p>area: {area}Km2</p>
-                    <p>capital: {capital}</p>
-                    <p>population: {population}</p>
-                </div>
                 <div className={style.imageContent}>
-                    <p>CODE: {id}</p>
-                    <img src={flag} alt={`flag ${name}`}/>
+                    <p><strong>Code:</strong> {id}</p>
+                    <img src={flag} alt={`flag ${name}`} />
+                </div>
+                <div className={style.textContent}>
+                    <p><strong>Continent:</strong> {continent}</p>
+                    <p><strong>Subregion:</strong> {subregion}</p>
+                    <p><strong>Area:</strong> {area}Km2</p>
+                    <p><strong>Capital:</strong> {capital}</p>
+                    <p><strong>Population:</strong> {population}</p>
                 </div>
             </div>
+            <h4><strong>Activities:</strong></h4>
             <div className={style.activitiesContent}>
                 { !activities.length?
                     <h6>no registered activities</h6>
@@ -70,6 +72,7 @@ function DetailCard (){
                                             season={activity.season}/>)}
             </div></>
             }
+        </div>
         </div>
     )
 }

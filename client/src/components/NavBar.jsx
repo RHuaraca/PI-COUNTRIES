@@ -19,10 +19,10 @@ function NavBar (){
                 <img src="../assets/image.jpg" alt="logo" className={style.logo}/>
             </Link>
             <ul className={style.list}>
-                <Link to='/allActivities'><li className={style.item}>View all activities</li></Link>
-                <Link to='/addActivity'><li className={style.item} onClick={()=>deleteAllCountries()}>Create new activity</li></Link>
-                <Link to='/selectActivityToUpdate'><li className={style.item}>Update activity</li></Link>
-                <Link to='/deleteActivity'><li className={style.item}>Delete activity</li></Link>
+                <Link className={style.link} to='/allActivities'><li className={style.item}>View all activities</li></Link>
+                <Link className={style.link} to='/addActivity'><li className={style.item} onClick={()=>deleteAllCountries()}>Create new activity</li></Link>
+                <Link className={style.link} to='/selectActivityToUpdate'><li className={style.item}>Update activity</li></Link>
+                <Link className={style.link} to='/deleteActivity'><li className={style.item}>Delete activity</li></Link>
             </ul>
         </div>
     )

@@ -106,7 +106,6 @@ export default function reducer(state = initialState, action) {
                 filterByActivity:action.payload.activity
             }
         case SET_NAME:
-            console.log(action.payload)
             return{
                 ...state,
                 actualName:action.payload

@@ -5,11 +5,14 @@ import ActivityCard from "./ActivityCard";
 import style from './create-activity.module.css';
 import ErrorHandler from "./ErrorHandler";
 import { Link } from "react-router-dom";
+import activityImage1 from '../assets/activity1.jpg';
+import activityImage2 from '../assets/activity2.jpg';
+import activityImage3 from '../assets/activity3.jpg';
 
 function CreateActivity (){
     const dispatch = useDispatch()
     const { allCountries, activities, errorHandler } = useSelector(state => state);
-    const seasons = ['summer', 'autumn', 'winter', 'spring'];
+    const seasons = ['Summer', 'Autumn', 'Winter', 'Spring'];
     let searchingCountry;
     let hours;
     const [errors, setErrors] = useState({
@@ -188,21 +191,23 @@ function CreateActivity (){
             <form onSubmit={(e) => handleOnSubmit(e)} className={style.formContainer}>
                 <label >Name:</label>
                 <div className={style.orderInLine}>
-                    <input onChange={(e) => handleInputChange(e)} type="text" name="name" />
+                    <input onChange={(e) => handleInputChange(e)} type="text" name="name" className={style.widthOfInput}/>
                     {!errors.name ? <span style={{ color: 'green' }}>✔</span> : <span style={{ color: "red" }}>✘</span>}
                     <input type="submit" value='Ready to Submit' className={(Object.keys(errors).length)?style.sendInvisible:style.sendVisible}/>
                 </div>
                 {errors.name ? <span style={{ color: "red" }}> {errors.name}</span> : <span style={{ color: "transparent" }}>.</span>}
                 
                 <br />
-                <label >difficulty:</label>
+        <div className={style.containerOfTextAndImages}>
+            <div className={style.containerOfDifficultyDurationSeason}>    
+                <label >Difficulty:</label>
                 <div className={style.orderInLine}>
                     <input onChange={(e) => handleInputChange(e)} type="range" min="1" max="5" name="difficulty" defaultValue='3' />
                     <span>{state.difficulty}</span>
                 </div>
                 <br />
 
-                <label>duration:</label>
+                <label>Duration:</label>
                 <div className={style.orderInLine}>
                     <input onChange={(e) => handleInputChange(e)} type="number" name="durationDay" min="0" max='90' placeholder="days" style={{ width:"2.7rem" }}/>
                     <input onChange={(e) => handleInputChange(e)} type="time" name="durationHours" />
@@ -225,7 +230,7 @@ function CreateActivity (){
                 <br />
                 
                 <div className={style.orderInLine}>
-                    <label>select season</label>
+                    <label>Select season</label>
                     {errors.season ? <span style={{ color: "red" }}>✘</span> : <span style={{ color: 'green' }}>✔</span>}
                 </div>
                 {seasons.map((season, i) => (
@@ -235,26 +240,36 @@ function CreateActivity (){
                         <br />
                     </div>))}
                 {errors.season ? <span style={{ color: "red" }}> {errors.season}</span> : <span style={{ color: "transparent" }}>.</span>}
-                <br />
                 
-                <div>
-                    <label>select countries</label>
-                    {errors.countries ? <span style={{ color: "red" }}>✘</span> : <span style={{ color: 'green' }}>✔</span>}
-                </div>
+            </div>
+                    <div className={style.imagesContainer1}> 
+                        <img src={activityImage2} alt="example1" />
+                    </div>
+                    <div className={style.imagesContainer2}>
+                        <img src={activityImage1} alt="example2" />
+                        <img src={activityImage3} alt="example3" />
+                    </div>   
+        </div>
+                <br />
+                <label>Select countries</label>
+                <div className={style.orderInLine}>
                 {errorHandler.length? errorHandler.map(error=><ErrorHandler error={error.error}/>)
                 :!state.countriesList.length ? <p>Loading...</p> :
-                    <select name="countries" onChange={(e) => handleInputChange(e)} onClick={(e)=>updateList(e)}>
-                        <option value="all">All Countries</option>
+                    <select name="countries" onChange={(e) => handleInputChange(e)} onClick={(e)=>updateList(e)} className={style.widthOfInput}>
+                        <option value="all">All countries</option>
                         {state.countriesList.map(country => (
                             <option key={country.id} value={country.id}>
                                 {country.name}
                             </option>))
                         }
                     </select>
+                    
                 }
+                {errors.countries ? <span style={{ color: "red" }}>✘</span> : <span style={{ color: 'green' }}>✔</span>}
+                </div>
                 <div className={style.countriesContainer}>
                     {!state.countries.length ?
-                        <span style={{ color: "red" }}>{errors.countries}</span>
+                        <span style={{ color: "red", width:"100%"}}>{errors.countries}</span>
                     :state.countries.map(country=>
                         <div key={country.id} className={style.cuntryContainer}>
                             <span>{country.name}</span>
@@ -271,7 +286,7 @@ function CreateActivity (){
                         <ErrorHandler key={1} error={state.response.error}/>
                         <button onClick={() => window.location.reload()}>Try again</button>
                         <Link to='/home/1'>
-                            <button >Go to Home</button>
+                            <button >Go to home</button>
                         </Link>
                         </>
                     :<>
@@ -286,7 +301,7 @@ function CreateActivity (){
                             </div>
                             <button onClick={()=>window.location.reload()}>Create new</button>
                             <Link to='/home/1'>
-                                <button >Go to Home</button>
+                                <button >Go to home</button>
                             </Link>
                         </>
                     : null

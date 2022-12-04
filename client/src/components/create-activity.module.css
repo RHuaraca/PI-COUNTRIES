@@ -1,3 +1,9 @@
+.container{
+    /* width: 100vw; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .formContainer{
     margin: 1em;
     display: flex;
@@ -6,12 +12,45 @@
     min-width: 25em;
     max-width: 25em;
 }
+.containerOfDifficultyDurationSeason{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 40%;
+}
+.containerOfTextAndImages{
+    display: flex;
+    width: 100%;
+}
+.containerOfTextAndImages img{
+    width: 92%;
+    padding: 3%;
+    margin: 1%;
+    border-radius: 5px;
+    box-shadow: 0 0 1px #1a1a1a;
+}
+.imagesContainer1{
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.imagesContainer2{
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .orderInLine{
     display: flex;
+    width: 100%;
+}
+.widthOfInput{
+    width: 90vw;
 }
 .countriesContainer{
     margin-top: 0.5em;
-    width: 75%;
+    width: 100%;
     border: solid 1px;
     box-shadow: 0 0 10px #444444;
     border-radius: 3px;

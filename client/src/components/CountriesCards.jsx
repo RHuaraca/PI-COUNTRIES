@@ -7,19 +7,31 @@ import {
 import style from './countries-cards.module.css';
 import {Route} from 'react-router-dom';
 
+import {getAllCountries, loaderOnOf} from '../redux/actions';
+import { useDispatch } from "react-redux";
+import { useEffect } from 'react';
+
 function CountriesCards(){
+    const dispatch = useDispatch();
+    const { orderName, orderPopulation, filterByContinent, filterByActivity, allCountries } = useSelector(state => state)
+    useEffect(() => {
+        if(!allCountries.length){
+            dispatch(getAllCountries(orderName, orderPopulation, filterByContinent, filterByActivity))
+            dispatch(loaderOnOf(true))
+        }
+    }, []);
+
     const {
         errorHandler, 
         loader, 
         actualPage,
         allPages,
-        allCountries,
+        //allCountries,
     } = useSelector(state => state)
 
-    //logica para paginado
     const filtered = allCountries; 
     let countriesByPage=[];
-   if (filtered.length > 10 && !!filtered[0]){
+    if (filtered.length > 10 && !!filtered[0]){
         if(actualPage===allPages){
            for (let i = actualPage * 10 - 10; i <= filtered.length-1; i++) {
                 countriesByPage.push(filtered[i])
@@ -29,7 +41,7 @@ function CountriesCards(){
                countriesByPage.push(filtered[i])
             }
         }
-   } else if (filtered.length >= 1 && !!filtered[0]){
+    } else if (filtered.length >= 1 && !!filtered[0]){
       countriesByPage = filtered;
     }
     return(

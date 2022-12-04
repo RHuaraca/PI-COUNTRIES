@@ -20,7 +20,7 @@ const validationsPostActivity = async (req, res, next) => {
 
         if (duration && !Number(duration) >= 1) errors.push({ error: `'${duration}' must be a number` });
 
-        const seasonOptions = ["summer", "autumn", "winter", "spring"]
+        const seasonOptions = ["Summer", "Autumn", "Winter", "Spring"]
 
         if (season && !seasonOptions.includes(season)) errors.push({ error: `'${season}' must be ${seasonOptions}` });
 
