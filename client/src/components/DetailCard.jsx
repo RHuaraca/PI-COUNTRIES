@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { cleanCountryDetail, getCountryDetail } from "../redux/actions";
+import { cleanCountryDetail, getCountryDetail, loaderOnOf } from "../redux/actions";
 import ActivityCard from "./ActivityCard";
 import style from './detail-card.module.css';
 
@@ -9,6 +9,7 @@ function DetailCard (){
     const param = useParams()
     const dispatch = useDispatch()
     useEffect(()=>{
+        dispatch(loaderOnOf(true))
         dispatch(getCountryDetail(param.id))
         return(
             dispatch(cleanCountryDetail())
