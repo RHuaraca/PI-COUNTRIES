@@ -16,7 +16,7 @@ import {
     GET_COUNTRY_DETAIL,
     CLEAN_COUNTRY_DETAIL,
     CLEAN_COUNTRTIES
-} from "./actionTypes";
+} from "./actionTypes"; 
 
 export function activeNavBar(boolean){
     return{
