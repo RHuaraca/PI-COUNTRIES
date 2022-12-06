@@ -1,8 +1,18 @@
+.searchBarContainer{
+    /* width: 100vw; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.resetButton button{
+    margin-top: 1em;
+}
 .content{
     margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 75%;
 }
 
 .search{
